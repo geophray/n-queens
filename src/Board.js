@@ -79,11 +79,24 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      //get row at rowIndex using get
+      var row = this.get(rowIndex);
+      //reduce the row array into a counter
+      var counter = _.reduce(row, function(total, square){
+        return total + square;
+      }, 0);
+      //if counter > 1, return true else false
+      return counter > 1; // fixme
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
+      var rows = this.rows();
+      for (var i = 0; i < rows.length; i++) {
+        if (this.hasRowConflictAt(i)) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
@@ -94,11 +107,21 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      var rows = this.rows();
+      var counter = _.reduce(rows, function(total, row){
+        return total + row[colIndex];
+      }, 0);
+      return counter > 1; // fixme
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
+      var rows = this.rows();
+      for (var i = 0; i < rows.length; i++) {
+        if (this.hasColConflictAt(i)) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
@@ -109,12 +132,54 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      // debugger;
+      //var mj = majorDiagonalColumnIndexAtFirstRow
+      var mj = majorDiagonalColumnIndexAtFirstRow;
+      //var rows
+      var rows = this.rows();
+      var n = rows.length;
+      //var start = row is 0, column is mj
+      var row = 0;
+      var column = mj;
+      //var counter = 0
+      var counter = 0;
+      //iterate rows.length
+      for (column; column < rows.length; column++, row++) {
+        // if column < 0
+        if (column < 0) {
+          continue;
+        } else if ((row >= n) || (column >= n)) {
+        //else if row or column >== n
+            //return counter
+            return counter > 1;
+        } else {
+          //else
+            //if current element contains a piece, increment counter
+            counter += rows[row][column];
+            //if counter > 1, return false
+            if (counter > 1) {
+              return true;
+            }//if
+        }//else
+      }//for
+      // return false; // fixme
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      // Find n for our board and store it in a variable
+      var n = this.get('n');
+      // Set column start point to -(n-1) === -n+1
+      var column = -(n-1);
+      // Iterate over the board starting at column ending at n-1
+      for (column; column < n; column++) {
+        // If hasMajorDiagonalConflictAt(column) === true
+        if (this.hasMajorDiagonalConflictAt(column) === true) {
+          // Return true
+          return true;
+        }
+      }
+        return false; // fixme
     },
 
 
@@ -126,6 +191,8 @@
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
       return false; // fixme
     },
+      //o,x
+      //x
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
@@ -146,3 +213,42 @@
   };
 
 }());
+
+
+// Board methods defined in Board.js
+//   rows
+//   togglePiece
+//   _getFirstRowColumnIndexForMajorDiagonalOn
+//   _getFirstRowColumnIndexForMinorDiagonalOn
+//   hasAnyRooksConflicts
+//   hasAnyQueenConflictsOn
+//   hasAnyQueensConflicts
+//   _isInBounds
+
+// Board methods defined in backbone.js
+
+//   toJSON
+//   sync
+//   get
+//   escape
+//   has
+//   set
+//   unset
+//   clear
+//   fetch
+//   save
+//   destroy
+//   url
+//   parse
+//   clone
+//   isNew
+//   hasChanged
+//   changedAttributes
+//   previous
+//   previousAttributes
+//   _.validate
+//   _.extend
+// also has array methods:
+// 	push
+// 	slice
+// 	splice
