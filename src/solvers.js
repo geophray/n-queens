@@ -16,8 +16,28 @@
 
 
 window.findNRooksSolution = function(n) {
-  var solution = undefined; //fixme
-
+  //create object to store which rows and columns have been used
+  var used = {};
+  used.col = [];
+  used.row = [];
+  var solution = new Board({'n': n});
+  //[[0,0,0],[0,0,0],[0,0,0]]
+  //create rows variable with get(rows)
+  var rows = solution.rows();
+  //iterate solution
+  for (var row = 0; row < rows.length; row++) {
+    //iterate rows
+    for (var col = 0; col < rows[row].length; col++) {
+      //if row and column haven't been used, toggle it
+      if (!(_.contains(used.col, col)) && !(_.contains(used.row, row))) {
+        solution.togglePiece(row, col);
+        //save current column and row to object
+        used.col.push(col);
+        used.row.push(row);
+      }
+    }
+  }
+  solution = solution.attributes;
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;
 };
