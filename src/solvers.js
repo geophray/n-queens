@@ -26,9 +26,9 @@
 //     //else increment currentCol and recurse using addNextPiece(board, n, currentRow, currentCol, conflictCheck)
 
 // }
-var addNextPiece = function(board, n, currentRow, currentCol, conflictCheck){  //
+// var addNextPiece = function(board, n, currentRow, currentCol, conflictCheck){  //
 
-};
+// };
 
 window.findNRooksSolution = function(n) {
   //create object to store which rows and columns have been used
@@ -65,18 +65,17 @@ window.countNRooksSolutions = function(n) {
   // Create a new board
   var board = new Board({'n': n});
   // Create helper function for populating potential solutions
-  function newRow(b, r) {
+  var newRow = function(b, r) {
     // parameter passed in is a board of nxn size, and row (board, row)
     // if row = n
-    if (r === n) {
-      // Check how many pieces are on the board
+    if (r === n) { // Check how many pieces are on the board
       var totalPieces = 0;
       //get rows, reduce rows instead of b
       var rowsR = b.rows();
       for (var i = 0; i < n; i++) {
-          totalPieces += _.reduce(rowsR[i], function(accumulator, currentValue){
-                return accumulator + currentValue;
-              }, 0);;
+        totalPieces += _.reduce(rowsR[i], function(accumulator, currentValue) {
+          return accumulator + currentValue;
+        }, 0);
       }
       // for (var i = 0; i < n; i++) {
       //   totalPieces += _.reduce(b[i], function(accumulator, currentValue){
@@ -97,14 +96,15 @@ window.countNRooksSolutions = function(n) {
       // returns a potential/valid solution
       b.togglePiece(r, i);
       // If has conflicts, then continue next iteration
-      if (!board.hasAnyRooksConflicts.call(b)) {
+      if (!b.hasAnyRooksConflicts()) {
         // Recursively call helper function on current board (board, row + 1)
-        solutionCount += newRow(b, r+1);
-        console.log ('solutionCount: ' + solutionCount)
-        console.log ('board is: ' + JSON.stringify(b) + '\nrow is: ' + r + '\nrows is: ' + rowsR)
+        solutionCount += newRow(b, r + 1);
+        console.log ('solutionCount: ' + solutionCount);
+        console.log ('board is: ' + JSON.stringify(b) + '\nrow is: ' + r + '\nrows is: ' + rowsR);
       }
       b.togglePiece(r, i);
     }
+    return solutionCount;
   };//function
   // Invoke the helper function on empty board (board, 0)
   newRow(board, 0);
