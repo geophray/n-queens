@@ -132,15 +132,12 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      // debugger;
-      //var mj = majorDiagonalColumnIndexAtFirstRow
-      var mj = majorDiagonalColumnIndexAtFirstRow;
       //var rows
       var rows = this.rows();
       var n = rows.length;
       //var start = row is 0, column is mj
       var row = 0;
-      var column = mj;
+      var column = majorDiagonalColumnIndexAtFirstRow;
       //var counter = 0
       var counter = 0;
       //iterate rows.length
@@ -179,7 +176,7 @@
           return true;
         }
       }
-        return false; // fixme
+        return false;
     },
 
 
@@ -189,14 +186,56 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      // Create rows variable containing the current rows
+      var rows = this.rows();
+      // Create a variable for n
+      var n = rows.length;
+      // Create a row variable and instantiate it to zero
+      var row = 0;
+      // Create a column variable and set it to minorDiagonalColumnIndexAtFirstRow
+      var column = minorDiagonalColumnIndexAtFirstRow;
+      // Create a counter variable, set it to 0
+      var counter = 0;
+      // Iterate over the board starting at column
+      for (column; column >= 0; column--, row++) {
+        // If column is greater than or equal to n
+        if (column >= n) {
+          // skip the current iteration
+          continue;
+        } else if (row >= n || column < 0) {
+          // Else if row >= n or column less than zero
+          // return counter > 1
+          return counter > 1;
+        } else {
+          // Else add the contents to counter
+          counter += rows[row][column];
+          // If counter is greater than one
+          if (counter > 1) {
+            // Return true
+            return true;
+          }
+        }
+      }
+      return false;
     },
       //o,x
       //x
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+      // Find n for our board and store it in a variable
+      var n = this.get('n');
+      // Set column start point to -(n-1) === -n+1
+      var column = 2*n-1;
+      // Iterate over the board starting at column ending at n-1
+      for (column; column >= 0; column--) {
+        // If hasMinorDiagonalConflictAt(column) === true
+        if (this.hasMinorDiagonalConflictAt(column) === true) {
+          // Return true
+          return true;
+        }
+      }
+        return false;
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
