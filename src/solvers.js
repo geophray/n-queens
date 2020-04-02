@@ -69,28 +69,29 @@ window.countNRooksSolutions = function(n) {
     // parameter passed in is a board of nxn size, and row (board, row)
     // if row = n
     if (r === n) {
-      // Check how many pieces are on the board
-      var totalPieces = 0;
-      //get rows, reduce rows instead of b
-      var rowsR = b.rows();
-      for (var i = 0; i < n; i++) {
-          totalPieces += _.reduce(rowsR[i], function(accumulator, currentValue){
-                return accumulator + currentValue;
-              }, 0);;
-      }
+      // // Check how many pieces are on the board
+      // var totalPieces = 0;
+      // //get rows, reduce rows instead of b
+      // var rowsR = b.rows();
       // for (var i = 0; i < n; i++) {
-      //   totalPieces += _.reduce(b[i], function(accumulator, currentValue){
-      //     return accumulator + currentValue;
-      //   }, 0);
+      //     totalPieces += _.reduce(rowsR[i], function(accumulator, currentValue){
+      //           return accumulator + currentValue;
+      //         }, 0);;
       // }
-      // If pieces === n , then return 1
-      if (totalPieces === n) {
-        return 1;
-      } else {
-      // else
-        // return 0
-        return 0;
-      }
+      // // for (var i = 0; i < n; i++) {
+      // //   totalPieces += _.reduce(b[i], function(accumulator, currentValue){
+      // //     return accumulator + currentValue;
+      // //   }, 0);
+      // // }
+      // // If pieces === n , then return 1
+      // if (totalPieces === n) {
+      //   return 1;
+      // } else {
+      // // else
+      //   // return 0
+      //   return 0;
+      // }
+      solutionCount++;
     }
     // Iterate over the current row, adding the next piece each iteration
     for (var i = 0; i < n; i++) {
@@ -102,6 +103,7 @@ window.countNRooksSolutions = function(n) {
         solutionCount += newRow(b, r+1);
         console.log ('solutionCount: ' + solutionCount)
         console.log ('board is: ' + JSON.stringify(b) + '\nrow is: ' + r + '\nrows is: ' + rowsR)
+        return solutionCount;
       }
       b.togglePiece(r, i);
     }
