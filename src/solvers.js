@@ -71,30 +71,39 @@ window.countNRooksSolutions = function(n) {
     if (r === n) {
       // Check how many pieces are on the board
       var totalPieces = 0;
+      //get rows, reduce rows instead of b
+      var rowsR = b.rows();
       for (var i = 0; i < n; i++) {
-        totalPieces += _.reduce(b[i], function(total, square){
-          return total + square;
-        }, 0);
-        // If pieces === n , then return 1
-        if (totalPieces === n) {
-          return 1;
-        } else {
-        // else
-          // return 0
-          return 0;
-        }
+          totalPieces += _.reduce(rowsR[i], function(accumulator, currentValue){
+                return accumulator + currentValue;
+              }, 0);;
+      }
+      // for (var i = 0; i < n; i++) {
+      //   totalPieces += _.reduce(b[i], function(accumulator, currentValue){
+      //     return accumulator + currentValue;
+      //   }, 0);
+      // }
+      // If pieces === n , then return 1
+      if (totalPieces === n) {
+        return 1;
+      } else {
+      // else
+        // return 0
+        return 0;
       }
     }
     // Iterate over the current row, adding the next piece each iteration
     for (var i = 0; i < n; i++) {
       // returns a potential/valid solution
-      board.toggle.call(b, r,i);
+      b.togglePiece(r, i);
       // If has conflicts, then continue next iteration
       if (!board.hasAnyRooksConflicts.call(b)) {
         // Recursively call helper function on current board (board, row + 1)
         solutionCount += newRow(b, r+1);
+        console.log ('solutionCount: ' + solutionCount)
+        console.log ('board is: ' + JSON.stringify(b) + '\nrow is: ' + r + '\nrows is: ' + rowsR)
       }
-      board.toggle.call(b, r, i);
+      b.togglePiece(r, i);
     }
   };//function
   // Invoke the helper function on empty board (board, 0)
