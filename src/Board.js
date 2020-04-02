@@ -62,14 +62,14 @@
     },
 
 
-/*
-         _             _     _
-     ___| |_ __ _ _ __| |_  | |__   ___ _ __ ___ _
-    / __| __/ _` | '__| __| | '_ \ / _ \ '__/ _ (_)
-    \__ \ || (_| | |  | |_  | | | |  __/ | |  __/_
-    |___/\__\__,_|_|   \__| |_| |_|\___|_|  \___(_)
+    /*
+          _             _     _
+      ___| |_ __ _ _ __| |_  | |__   ___ _ __ ___ _
+      / __| __/ _` | '__| __| | '_ \ / _ \ '__/ _ (_)
+      \__ \ || (_| | |  | |_  | | | |  __/ | |  __/_
+      |___/\__\__,_|_|   \__| |_| |_|\___|_|  \___(_)
 
- */
+    */
     /*=========================================================================
     =                 TODO: fill in these Helper Functions                    =
     =========================================================================*/
@@ -82,7 +82,7 @@
       //get row at rowIndex using get
       var row = this.get(rowIndex);
       //reduce the row array into a counter
-      var counter = _.reduce(row, function(total, square){
+      var counter = _.reduce(row, function(total, square) {
         return total + square;
       }, 0);
       //if counter > 1, return true else false
@@ -108,7 +108,7 @@
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
       var rows = this.rows();
-      var counter = _.reduce(rows, function(total, row){
+      var counter = _.reduce(rows, function(total, row) {
         return total + row[colIndex];
       }, 0);
       return counter > 1; // fixme
@@ -146,17 +146,17 @@
         if (column < 0) {
           continue;
         } else if ((row >= n) || (column >= n)) {
-        //else if row or column >== n
-            //return counter
-            return counter > 1;
+          //else if row or column >== n
+          //return counter
+          return counter > 1;
         } else {
           //else
-            //if current element contains a piece, increment counter
-            counter += rows[row][column];
-            //if counter > 1, return false
-            if (counter > 1) {
-              return true;
-            }//if
+          //if current element contains a piece, increment counter
+          counter += rows[row][column];
+          //if counter > 1, return false
+          if (counter > 1) {
+            return true;
+          }//if
         }//else
       }//for
       // return false; // fixme
@@ -167,7 +167,7 @@
       // Find n for our board and store it in a variable
       var n = this.get('n');
       // Set column start point to -(n-1) === -n+1
-      var column = -(n-1);
+      var column = -(n - 1);
       // Iterate over the board starting at column ending at n-1
       for (column; column < n; column++) {
         // If hasMajorDiagonalConflictAt(column) === true
@@ -176,7 +176,7 @@
           return true;
         }
       }
-        return false;
+      return false;
     },
 
 
@@ -218,15 +218,13 @@
       }
       return false;
     },
-      //o,x
-      //x
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
       // Find n for our board and store it in a variable
       var n = this.get('n');
       // Set column start point to -(n-1) === -n+1
-      var column = 2*n-1;
+      var column = 2 * n - 1;
       // Iterate over the board starting at column ending at n-1
       for (column; column >= 0; column--) {
         // If hasMinorDiagonalConflictAt(column) === true
@@ -235,7 +233,7 @@
           return true;
         }
       }
-        return false;
+      return false;
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
