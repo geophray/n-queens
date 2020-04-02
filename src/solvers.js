@@ -37,7 +37,7 @@ window.findNRooksSolution = function(n) {
       }
     }
   }
-  solution = solution.attributes;
+  solution = solution.rows();
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;
 };
