@@ -17,44 +17,23 @@
 
 
 
-var newRow = function(board, r, n, conflict, cb) {
-  // parameter passed in is a board of nxn size, and row (board, row)
-  // if row = n
+var newRow = function(board, r, n, conflict, cb) { //O(n!)
+
   if (r === n) { // Check how many pieces are on the board
     return cb();
-    // var totalPieces = 0;
-    // //get rows, reduce rows instead of b
-    // var rowsR = b.rows();
-    // for (var i = 0; i < n; i++) {
-    //   totalPieces += _.reduce(rowsR[i], function(accumulator, currentValue) {
-    //     return accumulator + currentValue;
-    //   }, 0);
-    // }
-    // // for (var i = 0; i < n; i++) {
-    // //   totalPieces += _.reduce(b[i], function(accumulator, currentValue){
-    // //     return accumulator + currentValue;
-    // //   }, 0);
-    // // }
-    // // If pieces === n , then return 1
-    // if (totalPieces === n) {
-    //   return 1;
-    // } else {
-    // // else
-    //   // return 0
-    //   return 0;
-    // }
+
   }
-  // Iterate over the current row, adding the next piece each iteration
+
   for (var i = 0; i < n; i++) {
-    // returns a potential/valid solution
+
     board.togglePiece(r, i);
-    // If has conflicts, then continue next iteration
     if (!board[conflict]()) {
-      // Recursively call helper function on current board (board, row + 1)
-      newRow(board, r + 1, n, conflict, cb);
-      // console.log ('solutionCount: ' + solutionCount);
-      // console.log ('board is: ' + JSON.stringify(board) + '\nrow is: ' + r + '\nrows is: ' + rowsR);
+      var success = newRow(board, r + 1, n, conflict, cb);
+      if (success) {
+        return success;
+      }
     }
+    //if it's checking the very last piece, don't execute line 59
     board.togglePiece(r, i);
   }
 // return solutionCount;
@@ -62,7 +41,7 @@ var newRow = function(board, r, n, conflict, cb) {
 
 
 
-window.findNRooksSolution = function(n) {
+window.findNRooksSolution = function(n) { //O(n^p) || O(n^2)
   //create object to store which rows and columns have been used
   var used = {};
   used.col = [];
@@ -91,7 +70,7 @@ window.findNRooksSolution = function(n) {
 };
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
-window.countNRooksSolutions = function(n) {
+window.countNRooksSolutions = function(n) { //O(n!)
   var solutionCount = 0; //fixme
 
   // Create a new board
@@ -99,7 +78,9 @@ window.countNRooksSolutions = function(n) {
   // Create helper function for populating potential solutions
 
   // Invoke the helper function on empty board (board, 0)
-  newRow(board, 0, n, 'hasAnyRooksConflicts', function() { solutionCount++; });
+  newRow(board, 0, n, 'hasAnyRooksConflicts', function() {
+    solutionCount++;
+  });
   // solutionCount += helperFunction(board, row);
 
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
@@ -107,17 +88,22 @@ window.countNRooksSolutions = function(n) {
 };
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
-window.findNQueensSolution = function(n) {
+window.findNQueensSolution = function(n) { //O(n!)
   var board = new Board({'n': n});
-  // console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
-
-  return newRow(board, 0, n, 'hasAnyQueensConflicts', function() {
-    return board.rows();
+  var solution = board.rows();
+  newRow(board, 0, n, 'hasAnyQueensConflicts', function() {
+    var newBoard = _.map(board.rows(), function(r) {
+      return r.slice();
+    });
+    return newBoard;
   });
+  console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
+
+  return solution;
 };
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
-window.countNQueensSolutions = function(n) {
+window.countNQueensSolutions = function(n) { //O(n!)
   var solutionCount = 0; //fixme
 
   // Create a new board
