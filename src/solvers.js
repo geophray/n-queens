@@ -18,19 +18,16 @@
 
 
 var newRow = function(board, r, n, conflict, cb) {//O(n!)
-  // parameter passed in is a board of nxn size, and row (board, row)
-  // if row = n
+
   if (r === n) { // Check how many pieces are on the board
     return cb();
 
   }
-  // Iterate over the current row, adding the next piece each iteration
+
   for (var i = 0; i < n; i++) {
-    // returns a potential/valid solution
+
     board.togglePiece(r, i);
-    // If has conflicts, then continue next iteration
     if (!board[conflict]()) {
-      // Recursively call helper function on current board (board, row + 1)
       var success = newRow(board, r + 1, n, conflict, cb);
       if (success) {
         return success;
@@ -99,7 +96,7 @@ window.findNQueensSolution = function(n) {//O(n!)
       return r.slice();
     })
     return newBoard;
-     });
+      });
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
 
   return solution;
