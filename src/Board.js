@@ -78,7 +78,7 @@
     // --------------------------------------------------------------
     //
     // test if a specific row on this board contains a conflict
-    hasRowConflictAt: function(rowIndex) {
+    hasRowConflictAt: function(rowIndex) { //O(n) - linear
       //get row at rowIndex using get
       var row = this.get(rowIndex);
       //reduce the row array into a counter
@@ -90,7 +90,7 @@
     },
 
     // test if any rows on this board contain conflicts
-    hasAnyRowConflicts: function() {
+    hasAnyRowConflicts: function() { //O(n^2) - quadratic
       var rows = this.rows();
       for (var i = 0; i < rows.length; i++) {
         if (this.hasRowConflictAt(i)) {
@@ -106,7 +106,7 @@
     // --------------------------------------------------------------
     //
     // test if a specific column on this board contains a conflict
-    hasColConflictAt: function(colIndex) {
+    hasColConflictAt: function(colIndex) { //O(n)
       var rows = this.rows();
       var counter = _.reduce(rows, function(total, row) {
         return total + row[colIndex];
@@ -115,7 +115,7 @@
     },
 
     // test if any columns on this board contain conflicts
-    hasAnyColConflicts: function() {
+    hasAnyColConflicts: function() { //O(n^2)
       var rows = this.rows();
       for (var i = 0; i < rows.length; i++) {
         if (this.hasColConflictAt(i)) {
@@ -131,7 +131,7 @@
     // --------------------------------------------------------------
     //
     // test if a specific major diagonal on this board contains a conflict
-    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
+    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) { //O(n)
       //var rows
       var rows = this.rows();
       var n = rows.length;
@@ -163,7 +163,7 @@
     },
 
     // test if any major diagonals on this board contain conflicts
-    hasAnyMajorDiagonalConflicts: function() {
+    hasAnyMajorDiagonalConflicts: function() { //O(n^2)
       // Find n for our board and store it in a variable
       var n = this.get('n');
       // Set column start point to -(n-1) === -n+1
@@ -185,7 +185,7 @@
     // --------------------------------------------------------------
     //
     // test if a specific minor diagonal on this board contains a conflict
-    hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
+    hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) { //O(n)
       // Create rows variable containing the current rows
       var rows = this.rows();
       // Create a variable for n
@@ -220,7 +220,7 @@
     },
 
     // test if any minor diagonals on this board contain conflicts
-    hasAnyMinorDiagonalConflicts: function() {
+    hasAnyMinorDiagonalConflicts: function() { //O(n^2)
       // Find n for our board and store it in a variable
       var n = this.get('n');
       // Set column start point to -(n-1) === -n+1
@@ -241,7 +241,7 @@
 
   });
 
-  var makeEmptyMatrix = function(n) {
+  var makeEmptyMatrix = function(n) {//O(n^p)
     return _(_.range(n)).map(function() {
       return _(_.range(n)).map(function() {
         return 0;
@@ -250,42 +250,3 @@
   };
 
 }());
-
-
-// Board methods defined in Board.js
-//   rows
-//   togglePiece
-//   _getFirstRowColumnIndexForMajorDiagonalOn
-//   _getFirstRowColumnIndexForMinorDiagonalOn
-//   hasAnyRooksConflicts
-//   hasAnyQueenConflictsOn
-//   hasAnyQueensConflicts
-//   _isInBounds
-
-// Board methods defined in backbone.js
-
-//   toJSON
-//   sync
-//   get
-//   escape
-//   has
-//   set
-//   unset
-//   clear
-//   fetch
-//   save
-//   destroy
-//   url
-//   parse
-//   clone
-//   isNew
-//   hasChanged
-//   changedAttributes
-//   previous
-//   previousAttributes
-//   _.validate
-//   _.extend
-// also has array methods:
-// 	push
-// 	slice
-// 	splice
