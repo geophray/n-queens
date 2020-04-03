@@ -51,11 +51,15 @@ var newRow = function(board, r, n, conflict, cb) {
     // If has conflicts, then continue next iteration
     if (!board[conflict]()) {
       // Recursively call helper function on current board (board, row + 1)
-      newRow(board, r + 1, n, conflict, cb);
+      var success = newRow(board, r + 1, n, conflict, cb);
+      if (success) {
+        return success;
+      }
       // console.log ('solutionCount: ' + solutionCount);
       // console.log ('board is: ' + JSON.stringify(board) + '\nrow is: ' + r + '\nrows is: ' + rowsR);
     }
-    board.togglePiece(r, i);
+    //if it's checking the very last piece, don't execute line 59
+      board.togglePiece(r, i);
   }
 // return solutionCount;
 };//function
@@ -109,11 +113,16 @@ window.countNRooksSolutions = function(n) {
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
   var board = new Board({'n': n});
-  // console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
+  var solution = board.rows();
+  newRow(board, 0, n, 'hasAnyQueensConflicts', function(){
+    var newBoard = _.map(board.rows(), function(r) {
+      return r.slice();
+    })
+    return newBoard;
+     });
+  console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
 
-  return newRow(board, 0, n, 'hasAnyQueensConflicts', function(){
- return board.rows();
-  })
+  return solution;
 };
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
