@@ -17,7 +17,7 @@
 
 
 
-var newRow = function(board, r, n, conflict, cb) {//O(n!)
+var newRow = function(board, r, n, conflict, cb) { //O(n!)
 
   if (r === n) { // Check how many pieces are on the board
     return cb();
@@ -32,18 +32,16 @@ var newRow = function(board, r, n, conflict, cb) {//O(n!)
       if (success) {
         return success;
       }
-      // console.log ('solutionCount: ' + solutionCount);
-      // console.log ('board is: ' + JSON.stringify(board) + '\nrow is: ' + r + '\nrows is: ' + rowsR);
     }
     //if it's checking the very last piece, don't execute line 59
-      board.togglePiece(r, i);
+    board.togglePiece(r, i);
   }
 // return solutionCount;
 };//function
 
 
 
-window.findNRooksSolution = function(n) {//O(n^p) || O(n^2)
+window.findNRooksSolution = function(n) { //O(n^p) || O(n^2)
   //create object to store which rows and columns have been used
   var used = {};
   used.col = [];
@@ -72,7 +70,7 @@ window.findNRooksSolution = function(n) {//O(n^p) || O(n^2)
 };
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
-window.countNRooksSolutions = function(n) {//O(n!)
+window.countNRooksSolutions = function(n) { //O(n!)
   var solutionCount = 0; //fixme
 
   // Create a new board
@@ -80,7 +78,9 @@ window.countNRooksSolutions = function(n) {//O(n!)
   // Create helper function for populating potential solutions
 
   // Invoke the helper function on empty board (board, 0)
-  newRow(board, 0, n, 'hasAnyRooksConflicts', function(){solutionCount++});
+  newRow(board, 0, n, 'hasAnyRooksConflicts', function() {
+    solutionCount++;
+  });
   // solutionCount += helperFunction(board, row);
 
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
@@ -88,22 +88,22 @@ window.countNRooksSolutions = function(n) {//O(n!)
 };
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
-window.findNQueensSolution = function(n) {//O(n!)
+window.findNQueensSolution = function(n) { //O(n!)
   var board = new Board({'n': n});
   var solution = board.rows();
-  newRow(board, 0, n, 'hasAnyQueensConflicts', function(){
+  newRow(board, 0, n, 'hasAnyQueensConflicts', function() {
     var newBoard = _.map(board.rows(), function(r) {
       return r.slice();
-    })
+    });
     return newBoard;
-      });
+  });
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
 
   return solution;
 };
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
-window.countNQueensSolutions = function(n) {//O(n!)
+window.countNQueensSolutions = function(n) { //O(n!)
   var solutionCount = 0; //fixme
 
   // Create a new board
@@ -111,7 +111,7 @@ window.countNQueensSolutions = function(n) {//O(n!)
   // Create helper function for populating potential solutions
 
   // Invoke the helper function on empty board (board, 0)
-  newRow(board, 0, n, 'hasAnyQueensConflicts', function(){solutionCount++});
+  newRow(board, 0, n, 'hasAnyQueensConflicts', function() { solutionCount++; } );
   // solutionCount += helperFunction(board, row);
 
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
